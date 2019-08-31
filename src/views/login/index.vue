@@ -16,7 +16,7 @@
           <el-checkbox v-model="formData.check">我已阅读并同意用户协议和隐私条款</el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" style="width:100%">登录</el-button>
+          <el-button type="primary" style="width:100%" @click="login">登录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -66,6 +66,29 @@ export default {
           }
         ]
       }
+    }
+  },
+  methods: {
+    login () {
+      this.$refs.formData.validate(isOK => {
+        if (isOK) {
+          this.$axios({
+            url: '/authorizations',
+            method: 'post',
+            data: this.formData
+          })
+            .then(res => {
+              window.localStorage.setItem('user-token', res.data.data.token)
+              this.$router.push('/')
+            })
+            .catch(() => {
+              this.$message({
+                message: '手机号或者验证码错误',
+                type: 'warning'
+              })
+            })
+        }
+      })
     }
   }
 }
