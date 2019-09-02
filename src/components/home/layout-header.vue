@@ -62,7 +62,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .layout-header {
   padding: 0;
   margin: 0;
