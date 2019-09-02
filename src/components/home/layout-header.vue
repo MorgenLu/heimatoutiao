@@ -33,14 +33,10 @@ export default {
     getUserInfo () {
       this.$axios({
         url: '/user/profile'
+      }).then(res => {
+        console.log(res)
+        this.userInfo = res.data
       })
-        .then(res => {
-          console.log(res)
-          this.userInfo = res.data
-        })
-        .catch(err => {
-          console.log(err)
-        })
     },
     handleMenuItem (command) {
       if (command === 'account') {
