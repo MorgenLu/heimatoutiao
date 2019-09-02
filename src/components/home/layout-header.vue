@@ -36,7 +36,7 @@ export default {
       })
         .then(res => {
           console.log(res)
-          this.userInfo = res.data.data
+          this.userInfo = res.data
         })
         .catch(err => {
           console.log(err)
