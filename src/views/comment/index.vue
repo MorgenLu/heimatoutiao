@@ -43,8 +43,9 @@ export default {
       let mess = row.comment_status ? '关闭' : '打开'
       this.$confirm(`您是否要${mess}评论?`, '提示').then(() => {
         this.$axios({
+          method: 'put',
           url: '/comments/status',
-          params: { article_id: row.id },
+          params: { article_id: row.id.toString() },
           data: { allow_comment: !row.comment_status }
         }).then(res => {
           this.getComments()
