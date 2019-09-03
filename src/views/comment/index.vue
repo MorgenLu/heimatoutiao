@@ -11,7 +11,11 @@
       <el-table-column label="操作">
         <template slot-scope="obj">
           <el-button type="text">修改评论</el-button>
-          <el-button type="text">{{obj.row.comment_status ? '关闭评论':'开启评论'}}</el-button>
+          <el-button
+            @click="openOrClose(obj.row)"
+            type="text"
+            :style="{color: obj.row.comment_status ? '#E6A23C' : '#409EFF'}"
+          >{{obj.row.comment_status ? '关闭评论':'开启评论'}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -34,6 +38,18 @@ export default {
   methods: {
     formatter (row) {
       return row.comment_status ? '正常' : '关闭'
+    },
+    openOrClose (row) {
+      let mess = row.comment_status ? '关闭' : '打开'
+      this.$confirm(`您是否要${mess}评论?`, '提示').then(() => {
+        this.$axios({
+          url: '/comments/status',
+          params: { article_id: row.id },
+          data: { allow_comment: !row.comment_status }
+        }).then(res => {
+          this.getComments()
+        })
+      })
     },
     getComments () {
       this.$axios({
