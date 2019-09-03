@@ -19,6 +19,16 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-row type="flex" justify="center">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="page.total"
+        :current-page="page.page"
+        :page-size="page.pageSize"
+        @current-change="changePage"
+      ></el-pagination>
+    </el-row>
   </el-card>
 </template>
 
@@ -36,6 +46,10 @@ export default {
   },
 
   methods: {
+    changePage (newPage) {
+      this.page.page = newPage
+      this.getComments()
+    },
     formatter (row) {
       return row.comment_status ? '正常' : '关闭'
     },
@@ -62,7 +76,9 @@ export default {
         }
       }).then(res => {
         this.list = res.data.results
-        // this.page.total = result.data.total_count;
+        // // this.page.total = result.data.total_count;
+        this.page.total = res.data.total_count
+        console.log(res)
       })
     }
   },
