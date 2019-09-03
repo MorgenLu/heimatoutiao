@@ -36,6 +36,7 @@
 export default {
   data () {
     return {
+      loading: false,
       list: [],
       page: {
         page: 1, // 当前页码
@@ -67,6 +68,7 @@ export default {
       })
     },
     getComments () {
+      this.loading = true
       this.$axios({
         url: '/articles',
         params: {
@@ -75,6 +77,7 @@ export default {
           per_page: this.page.pageSize
         }
       }).then(res => {
+        this.loading = false
         this.list = res.data.results
         // // this.page.total = result.data.total_count;
         this.page.total = res.data.total_count
