@@ -69,7 +69,50 @@ export default {
       }
     }
   },
+
   methods: {
+    uploadImg (params) {
+      let obj = new FormData()
+      obj.append('image', params.file)
+      this.$axios({
+        url: '/user/images',
+        method: 'post',
+        data: obj
+      }).then(() => {
+        this.getMaterial()
+      })
+    },
+    collectOrCancel (item) {
+      let mess = item.is_collected ? '取消' : ''
+      this.$confirm(`您确定要${mess}收藏这张图片?`, '提示').then(() => {
+        this.$axios({
+          url: `/user/images/${item.id}`,
+          method: 'put',
+          data: { collect: !item.is_collected }
+        }).then(() => {
+          this.getMaterial()
+        })
+      })
+    },
+    delImg (item) {
+      this.$confirm('您确定要删除此图片吗?', '提示').then(() => {
+        // 确定要删除
+        this.$axios({
+          url: `/user/images/${item.id}`,
+          method: 'delete'
+        }).then(() => {
+          this.getMaterial() // 重新加载
+        })
+      })
+    },
+    changePage (newPage) {
+      this.page.page = newPage
+      this.getMaterial()
+    },
+    changeTab () {
+      this.page.page = 1
+      this.getMaterial()
+    },
     getMaterial () {
       this.$axios({
         url: '/user/images',
@@ -80,6 +123,7 @@ export default {
         }
       }).then(res => {
         this.list = res.data.results
+        this.page.total = res.data.total_count
       })
     }
   },
@@ -91,6 +135,7 @@ export default {
 
 <style lang="less" scoped>
 .material {
+  margin-top: 30px;
   .upload-btn {
     position: absolute;
     right: 10px;
