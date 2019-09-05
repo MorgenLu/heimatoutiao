@@ -6,22 +6,21 @@
     <!-- 搜索工具栏 -->
     <el-form>
       <el-form-item label="文章状态">
-        <el-radio-group v-model="searchForm">
-          <el-radio :label="5">全部</el-radio>
-          <el-radio :label="0">草稿</el-radio>
-          <el-radio :label="1">待审核</el-radio>
-          <el-radio :label="2">审核通过</el-radio>
-          <el-radio :label="3">审核失败</el-radio>
+        <el-radio-group>
+          <el-radio>全部</el-radio>
+          <el-radio>草稿</el-radio>
+          <el-radio>待审核</el-radio>
+          <el-radio>审核通过</el-radio>
+          <el-radio>审核失败</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="频道列表">
-        <el-select v-model="searchForm.region"></el-select>
+        <el-select></el-select>
       </el-form-item>
       <el-form-item label="时间选择">
         <div class="block">
           <el-date-picker
-            v-model="value1"
-            type="datetimerange"
+            type="daterange"
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
@@ -55,8 +54,20 @@
 export default {
   data () {
     return {
-      searchForm: {}
+      list: []
     }
+  },
+  methods: {
+    getArticles () {
+      this.$axios({
+        url: '/articles'
+      }).then(res => {
+        console.log(res)
+      })
+    }
+  },
+  created () {
+    this.getArticles()
   }
 }
 </script>
