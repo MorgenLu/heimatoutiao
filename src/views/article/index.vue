@@ -54,6 +54,16 @@
         </div>
       </div>
     </div>
+    <el-row type="flex" justify="center">
+      <el-pagination
+        background
+        @current-change="changePage"
+        layout="prev, pager, next"
+        :total="page.total"
+        :current-page="page.page"
+        :page-size="page.pageSize"
+      ></el-pagination>
+    </el-row>
   </el-card>
 </template>
 
@@ -68,10 +78,19 @@ export default {
         channel_id: null,
         dateRange: []
       },
-      clannels: []
+      clannels: [],
+      page: {
+        page: 1,
+        pageSize: 10,
+        total: 0
+      }
     }
   },
   methods: {
+    changePage (newPage) {
+      this.page.page = newPage
+      this.getConditionArticle()
+    },
     getclannels () {
       this.$axios({
         url: '/channels'
@@ -95,7 +114,9 @@ export default {
         end_pubdate:
           this.searchForm.dateRange.length > 1
             ? this.searchForm.dateRange[1]
-            : null
+            : null,
+        page: this.page.page,
+        per_page: this.page.pageSize
       }
       this.getArticles(params)
     },
@@ -105,6 +126,7 @@ export default {
         params
       }).then(res => {
         this.list = res.data.results
+        this.page.total = res.data.total_count
       })
     }
   },
