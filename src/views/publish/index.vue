@@ -30,8 +30,8 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="publish">发表</el-button>
-        <el-button>存入草稿</el-button>
+        <el-button type="primary" @click="publish(false)">发表</el-button>
+        <el-button @click="publish(true)">存入草稿</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -42,6 +42,7 @@ export default {
   data () {
     return {
       channels: [],
+      draft: false,
       formData: {
         channel_id: null,
         title: '',
@@ -59,6 +60,7 @@ export default {
     }
   },
   methods: {
+    // 获取点击修改跳过来后的内容
     getPublish (articleId) {
       this.$axios({
         url: `/articles/${articleId}`
@@ -66,14 +68,16 @@ export default {
         this.formData = res.data
       })
     },
-    publish () {
+    // 发布文章
+    publish (draft) {
       this.$refs.publishForm.validate(isOk => {
+        let { articleId } = this.$route.params
         if (isOk) {
           this.$axios({
-            url: '/articles',
-            method: 'post',
+            url: articleId ? `/articles/${articleId}` : '/articles',
+            method: articleId ? 'put' : 'post',
             params: {
-              draft: false
+              draft
             },
             data: this.formData
           }).then(() => {
@@ -82,6 +86,7 @@ export default {
         }
       })
     },
+    // 获取频道
     getPublishChannel () {
       this.$axios({
         url: '/channels'
