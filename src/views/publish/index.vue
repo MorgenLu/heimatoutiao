@@ -20,7 +20,7 @@
         ></quill-editor>
       </el-form-item>
       <el-form-item label="封面">
-        <el-radio-group v-model="formData.cover.type">
+        <el-radio-group v-model="formData.cover.type" @change="changeCoverType">
           <el-radio :label="1">单图</el-radio>
           <el-radio :label="3">三图</el-radio>
           <el-radio :label="0">无图</el-radio>
@@ -63,6 +63,16 @@ export default {
     }
   },
   methods: {
+    // 切换封面类型  根据当前类型决定 images结构
+    changeCoverType () {
+      if (this.formData.cover.type === 1) {
+        this.formData.cover.images = ['']
+      } else if (this.formData.cover.type === 3) {
+        this.formData.cover.images = ['', '', '']
+      } else {
+        this.formData.cover.images = []
+      }
+    },
     // 获取点击修改跳过来后的内容
     getPublish (articleId) {
       this.$axios({
