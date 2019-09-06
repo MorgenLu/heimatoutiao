@@ -28,7 +28,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item>
-        <cover-image :images="formData.cover.images"></cover-image>
+        <cover-image :images="formData.cover.images" @onCoverImage="receiveImg"></cover-image>
       </el-form-item>
       <el-form-item label="频道" prop="channel_id">
         <el-select v-model="formData.channel_id">
@@ -66,6 +66,18 @@ export default {
     }
   },
   methods: {
+    // 接收cover-image的数据url和index
+    receiveImg (url, index) {
+      this.formData.cover.images = this.formData.cover.images.map(function (
+        item,
+        i
+      ) {
+        if (i === index) {
+          return url
+        }
+        return item
+      })
+    },
     // 切换封面类型  根据当前类型决定 images结构
     changeCoverType () {
       if (this.formData.cover.type === 1) {

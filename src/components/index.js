@@ -8,6 +8,7 @@ import {
   quillEditor
 } from 'vue-quill-editor'
 import coverImage from './publish/cover-image'
+import selectImage from './publish/select-image'
 export default {
   install: function (Vue) {
     Vue.component('layout-aside', layoutAside)
@@ -15,5 +16,6 @@ export default {
     Vue.component('bread-crumb', breadCrumb)
     Vue.component('quill-editor', quillEditor)
     Vue.component('cover-image', coverImage)
+    Vue.component('select-image', selectImage)
   }
 }
