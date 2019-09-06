@@ -14,7 +14,10 @@
         <el-input v-model="formData.title" style="width:600px"></el-input>
       </el-form-item>
       <el-form-item label="内容" prop="center">
-        <el-input v-model="formData.content" type="textarea" style="width:800px" :rows="10"></el-input>
+        <quill-editor
+          v-model="formData.content"
+          style="width:800px;height:200px;margin-bottom:110px"
+        ></quill-editor>
       </el-form-item>
       <el-form-item label="封面">
         <el-radio-group v-model="formData.cover.type">
