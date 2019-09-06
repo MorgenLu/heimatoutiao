@@ -37,7 +37,7 @@ export default new Router({
       component: () => import('./views/publish')
     },
     {
-      path: '/home/publish/:target',
+      path: '/home/publish/:articleId',
       component: () => import('./views/publish')
     }
     ]

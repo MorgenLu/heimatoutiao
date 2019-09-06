@@ -59,6 +59,13 @@ export default {
     }
   },
   methods: {
+    getPublish (articleId) {
+      this.$axios({
+        url: `/articles/${articleId}`
+      }).then(res => {
+        this.formData = res.data
+      })
+    },
     publish () {
       this.$refs.publishForm.validate(isOk => {
         if (isOk) {
@@ -86,6 +93,10 @@ export default {
   },
   created () {
     this.getPublishChannel()
+    let { articleId } = this.$route.params
+    if (articleId) {
+      this.getPublish(articleId)
+    }
   }
 }
 </script>
