@@ -69,7 +69,7 @@ export default {
         }
       }).then(res => {
         this.list = res.data.results
-        this.total = res.data.total_count
+        this.page.total = res.data.total_count
       })
     }
   },
