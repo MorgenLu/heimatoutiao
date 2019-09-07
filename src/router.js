@@ -39,6 +39,9 @@ export default new Router({
     {
       path: '/home/publish/:articleId',
       component: () => import('./views/publish')
+    }, {
+      path: '/home/account',
+      component: () => import('./views/account')
     }
     ]
   },
@@ -46,6 +49,5 @@ export default new Router({
     path: '/login',
     component: Login
   }
-
   ]
 })
